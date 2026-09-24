@@ -1,0 +1,650 @@
+{
+    "tt0244316":  {
+                      "dir":  "杨德昌",
+                      "min":  173,
+                      "genres":  "Drama",
+                      "imdbRating":  8.1,
+                      "country":  "TW",
+                      "kind":  "Movie",
+                      "synopsis":  "台北一个中产家庭的群像。四十多岁的父亲、十几岁的女儿和八岁的儿子，各自在悔恨、希望与失落之间走过一段日子。"
+                  },
+    "tt0443680":  {
+                      "dir":  "安德鲁·多米尼克",
+                      "min":  160,
+                      "genres":  "Biography,Crime,Drama",
+                      "imdbRating":  7.5,
+                      "country":  "US",
+                      "kind":  "Movie",
+                      "synopsis":  "罗伯特·福特从小崇拜杰西·詹姆斯，千方百计混进这位密苏里悍匪重整的帮伙，却在朝夕相处中渐渐由崇拜转为怨恨。"
+                  },
+    "tt5753856":  {
+                      "dir":  "巴兰·博·欧达尔",
+                      "min":  0,
+                      "genres":  "Crime,Drama,Mystery",
+                      "imdbRating":  8.7,
+                      "country":  "DE",
+                      "kind":  "TVSeries",
+                      "synopsis":  "德国小镇上两个孩子接连失踪，牵出四个家庭之间盘根错节的关系——一部带着超自然色彩的家族史诗。"
+                  },
+    "tt0210916":  {
+                      "dir":  "霍建起",
+                      "min":  93,
+                      "genres":  "Drama",
+                      "imdbRating":  7.8,
+                      "country":  "CN",
+                      "kind":  "Movie",
+                      "synopsis":  "即将退休的老邮递员，带着接班的儿子走最后一趟湘西山区邮路。"
+                  },
+    "tt0166924":  {
+                      "dir":  "大卫·林奇",
+                      "min":  147,
+                      "genres":  "Drama,Mystery,Thriller",
+                      "imdbRating":  7.9,
+                      "country":  "FR",
+                      "kind":  "Movie",
+                      "synopsis":  "一场发生在穆赫兰道上的车祸让一个女人失去记忆，她和一个怀揣明星梦的女孩在洛杉矶四处寻找线索，一路走进梦与现实的缝隙。"
+                  },
+    "tt7282468":  {
+                      "dir":  "李沧东",
+                      "min":  148,
+                      "genres":  "Crime,Drama,Mystery",
+                      "imdbRating":  7.4,
+                      "country":  "KR",
+                      "kind":  "Movie",
+                      "synopsis":  "钟秀偶遇儿时的邻居惠美，替她照看出门旅行时留下的猫。惠美从非洲回来，身边多了一个神秘的男人本，他向钟秀坦白了自己的\"秘密爱好\"。"
+                  },
+    "tt0110340":  {
+                      "dir":  "徐克",
+                      "min":  107,
+                      "genres":  "Comedy,Drama,Fantasy",
+                      "imdbRating":  7.3,
+                      "country":  "HK",
+                      "kind":  "Movie",
+                      "synopsis":  "东晋年间，祝英台女扮男装进书院求学，爱上了清贫勤勉的梁山伯，这段短暂的爱情终究抵不过门第。"
+                  },
+    "tt0085533":  {
+                      "dir":  "侯孝贤",
+                      "min":  99,
+                      "genres":  "Drama",
+                      "imdbRating":  7.3,
+                      "country":  "TW",
+                      "kind":  "Movie",
+                      "synopsis":  "澎湖渔村的阿清和朋友们刚毕业，整天喝酒打架。三个人决定去高雄找工作，在陌生的港口城市里晃荡、长大。"
+                  },
+    "tt6412864":  {
+                      "dir":  "洪常秀",
+                      "min":  101,
+                      "genres":  "Drama,Romance",
+                      "imdbRating":  6.8,
+                      "country":  "KR",
+                      "kind":  "Movie",
+                      "synopsis":  "一位女演员在海边小城游荡，反复咀嚼自己和一个已婚男人之间的关系。"
+                  },
+    "tt33764258":  {
+                       "dir":  "克里斯托弗·诺兰",
+                       "min":  172,
+                       "genres":  "Action,Adventure,Fantasy",
+                       "imdbRating":  8.4,
+                       "country":  "GB",
+                       "kind":  "Movie",
+                       "synopsis":  "特洛伊战争之后，奥德修斯踏上凶险的归乡之路，一路遭遇独眼巨人、塞壬与卡吕普索。"
+                   },
+    "tt0071324":  {
+                      "dir":  "胡金铨",
+                      "min":  102,
+                      "genres":  "Action,Drama,History",
+                      "imdbRating":  7.2,
+                      "country":  "TW",
+                      "kind":  "Movie",
+                      "synopsis":  "明朝嘉靖年间，朝廷派遣一名官员带着一小队侠士前往东南沿海剿灭倭寇。"
+                  },
+    "tt29002950":  {
+                       "dir":  "毕赣",
+                       "min":  160,
+                       "genres":  "Drama,Sci-Fi",
+                       "imdbRating":  7.2,
+                       "country":  "CN",
+                       "kind":  "Movie",
+                       "synopsis":  "在一个人们以放弃做梦来延长寿命的世界里，仍有人偷偷做梦、扭曲时间。五场梦对应五种感官，也依次对应一个世纪里的五个时代。"
+                   },
+    "tt33095194":  {
+                       "dir":  "方励",
+                       "min":  123,
+                       "genres":  "Documentary",
+                       "imdbRating":  8.3,
+                       "country":  "CN",
+                       "kind":  "Movie",
+                       "synopsis":  "摄制组走访英、美、日、中四国，寻找亲历者与后人，一点点逼近\"里斯本丸\"沉没的真相。"
+                   },
+    "tt0190332":  {
+                      "dir":  "李安",
+                      "min":  120,
+                      "genres":  "Action,Adventure,Drama",
+                      "imdbRating":  7.8,
+                      "country":  "TW",
+                      "kind":  "Movie",
+                      "synopsis":  "年轻的玉娇龙盗走了大侠李慕白的青冥剑，与一个神秘男子一同逃进江湖与边塞的浪漫冒险之中。"
+                  },
+    "tt0102816":  {
+                      "dir":  "关锦鹏",
+                      "min":  126,
+                      "genres":  "Biography,Drama,Romance",
+                      "imdbRating":  7.4,
+                      "country":  "HK",
+                      "kind":  "Movie",
+                      "synopsis":  "三十年代默片女星阮玲玉的一生，戏里戏外交织着她的光芒与悲剧。"
+                  },
+    "tt0093342":  {
+                      "dir":  "阿巴斯·基亚罗斯塔米",
+                      "min":  83,
+                      "genres":  "Adventure,Drama,Family",
+                      "imdbRating":  8.1,
+                      "country":  "IR",
+                      "kind":  "Movie",
+                      "synopsis":  "八岁的阿默德错拿了同桌的作业本，如果不还回去，同桌就会被开除。他一个人出发，去邻村寻找朋友的家。"
+                  },
+    "tt0192213":  {
+                      "dir":  "胡金铨",
+                      "min":  120,
+                      "genres":  "Action,Adventure,Drama",
+                      "imdbRating":  7.3,
+                      "country":  "TW",
+                      "kind":  "Movie",
+                      "synopsis":  "明代三宝寺住持要选继承人，受邀而来的达官贵人里，有人觊觎的是寺中珍藏的大乘经卷。"
+                  },
+    "tt0060635":  {
+                      "dir":  "胡金铨",
+                      "min":  111,
+                      "genres":  "Action,Adventure",
+                      "imdbRating":  7.5,
+                      "country":  "TW",
+                      "kind":  "Movie",
+                      "synopsis":  "明景泰年间，忠臣被斩，东厂追杀其遗孤至边关龙门客栈，几位侠客挺身而出。"
+                  },
+    "tt0189219":  {
+                      "dir":  "费穆",
+                      "min":  98,
+                      "genres":  "Drama,Romance",
+                      "imdbRating":  7.3,
+                      "country":  "CN",
+                      "kind":  "Movie",
+                      "synopsis":  "江南小城，一个寂寞的主妇守着病弱的丈夫度日，直到她旧日的恋人回到了这里。"
+                  },
+    "tt1479138":  {
+                      "dir":  "康洪雷",
+                      "min":  0,
+                      "genres":  "History,War",
+                      "imdbRating":  8.3,
+                      "country":  "CN",
+                      "kind":  "TVSeries",
+                      "synopsis":  "1942 年滇缅公路上，一群被称为\"炮灰团\"的中国远征军溃兵，在绝境中与日军周旋。"
+                  },
+    "tt0117151":  {
+                      "dir":  "侯孝贤",
+                      "min":  116,
+                      "genres":  "Crime,Drama",
+                      "imdbRating":  7.2,
+                      "country":  "TW",
+                      "kind":  "Movie",
+                      "synopsis":  "台北两个混日子的小流氓，在一次次发财梦里兜兜转转。"
+                  },
+    "tt8875366":  {
+                      "dir":  "白雪",
+                      "min":  99,
+                      "genres":  "Crime,Drama",
+                      "imdbRating":  6.8,
+                      "country":  "CN",
+                      "kind":  "Movie",
+                      "synopsis":  "住在深圳、在香港上学的佩佩，十六年来每天往返两地。为了和闺蜜去日本看雪，她加入了一个水货走私团伙。"
+                  },
+    "tt0117905":  {
+                      "dir":  "陈可辛",
+                      "min":  118,
+                      "genres":  "Drama,Romance",
+                      "imdbRating":  8.1,
+                      "country":  "HK",
+                      "kind":  "Movie",
+                      "synopsis":  "两个从大陆来到香港的年轻人，从相互取暖到相爱，却一再被命运错开。"
+                  },
+    "tt0043139":  {
+                      "dir":  "石挥",
+                      "min":  120,
+                      "genres":  "Drama,History",
+                      "imdbRating":  7.3,
+                      "country":  "CN",
+                      "kind":  "Movie",
+                      "synopsis":  "一个北京老巡警的一生，折射出 1900 到 1950 年间的战乱、革命与世道变迁。"
+                  },
+    "tt0069947":  {
+                      "dir":  "弗雷德·齐纳曼",
+                      "min":  143,
+                      "genres":  "Crime,Drama,Thriller",
+                      "imdbRating":  7.8,
+                      "country":  "GB",
+                      "kind":  "Movie",
+                      "synopsis":  "法国承认阿尔及利亚独立后，一群心怀不满的退役军人雇来代号\"豺狼\"的职业杀手，目标是戴高乐总统。"
+                  },
+    "tt28350709":  {
+                       "dir":  "秦天",
+                       "min":  172,
+                       "genres":  "Drama",
+                       "imdbRating":  6.6,
+                       "country":  "CN",
+                       "kind":  "Movie",
+                       "synopsis":  "成都，重阳节。夏婵梦见自己从高楼跃下。在嘈杂的城市和简陋的违建房里，她似乎只听得见自己和腹中生命的心跳。"
+                   },
+    "tt4882964":  {
+                      "dir":  "平川雄一朗",
+                      "min":  120,
+                      "genres":  "Drama,Mystery,Fantasy",
+                      "imdbRating":  6.4,
+                      "country":  "JP",
+                      "kind":  "Movie",
+                      "synopsis":  "不得志的漫画家藤沼悟，有一种会被迫\"重来\"的能力：每当悲剧发生前，他就会被送回到事发之前去阻止它。"
+                  },
+    "tt11052808":  {
+                       "dir":  "金度英",
+                       "min":  118,
+                       "genres":  "Drama",
+                       "imdbRating":  7.3,
+                       "country":  "KR",
+                       "kind":  "Movie",
+                       "synopsis":  "三十多岁的普通女性金智英，某天开始像是被已故的外婆、姐姐等人\"附身\"，牵出她和身边女人们的故事。"
+                   },
+    "tt7010412":  {
+                      "dir":  "黄信尧",
+                      "min":  102,
+                      "genres":  "Comedy,Crime,Drama",
+                      "imdbRating":  7.6,
+                      "country":  "TW",
+                      "kind":  "Movie",
+                      "synopsis":  "肚财和菜埔偷看老板的行车记录仪取乐，却撞见了一个不该看到的秘密。"
+                  },
+    "tt0070917":  {
+                      "dir":  "罗宾·哈迪",
+                      "min":  88,
+                      "genres":  "Horror,Mystery,Thriller",
+                      "imdbRating":  7.5,
+                      "country":  "GB",
+                      "kind":  "Movie",
+                      "synopsis":  "一位虔诚的警官来到苏格兰一座孤岛寻找失踪的女孩，岛上信奉异教的居民却说这个女孩从未存在过。"
+                  },
+    "tt0769507":  {
+                      "dir":  "姜文",
+                      "min":  116,
+                      "genres":  "Drama,Fantasy",
+                      "imdbRating":  7.2,
+                      "country":  "CN",
+                      "kind":  "Movie",
+                      "synopsis":  "云南山村、大学校园、戈壁农场……四段故事在不同的时空里相互勾连，像一场关于疯狂与爱的梦。"
+                  },
+    "tt0110413":  {
+                      "dir":  "吕克·贝松",
+                      "min":  110,
+                      "genres":  "Action,Crime,Drama",
+                      "imdbRating":  8.5,
+                      "country":  "FR",
+                      "kind":  "Movie",
+                      "synopsis":  "十二岁的玛蒂尔达全家被腐败警察杀害，她求助于隔壁沉默寡言的职业杀手莱昂，想要复仇。"
+                  },
+    "tt1299370":  {
+                      "dir":  "曹保平",
+                      "min":  96,
+                      "genres":  "Crime,Drama,Romance",
+                      "imdbRating":  7,
+                      "country":  "CN",
+                      "kind":  "Movie",
+                      "synopsis":  "一起离奇的死亡让五个陌生人的命运绞在一起，出租车司机李米在寻找失踪男友的路上，揭开一桩毒品案。"
+                  },
+    "tt12440140":  {
+                       "dir":  "岨手由贵子",
+                       "min":  124,
+                       "genres":  "Drama,Family",
+                       "imdbRating":  6.8,
+                       "country":  "JP",
+                       "kind":  "Movie",
+                       "synopsis":  "出身东京名门的华子想要一段安稳的婚姻；从地方考来东京、靠自己打拼的美纪，经由一个男人与她相遇。"
+                   },
+    "tt0090756":  {
+                      "dir":  "大卫·林奇",
+                      "min":  120,
+                      "genres":  "Crime,Drama,Mystery",
+                      "imdbRating":  7.7,
+                      "country":  "US",
+                      "kind":  "Movie",
+                      "synopsis":  "一个年轻人在草地上捡到一只人耳，顺着它走进一名神秘夜总会歌手和一群疯狂罪犯的世界。"
+                  },
+    "tt0075686":  {
+                      "dir":  "伍迪·艾伦",
+                      "min":  93,
+                      "genres":  "Comedy,Romance",
+                      "imdbRating":  7.9,
+                      "country":  "US",
+                      "kind":  "Movie",
+                      "synopsis":  "离过婚的喜剧演员艾尔维回顾他和前女友安妮·霍尔的恋情——它和他之前的婚姻一样，戛然而止。"
+                  },
+    "tt0040525":  {
+                      "dir":  "奥逊·威尔斯",
+                      "min":  87,
+                      "genres":  "Crime,Drama,Film-Noir",
+                      "imdbRating":  7.5,
+                      "country":  "US",
+                      "kind":  "Movie",
+                      "synopsis":  "一个水手被一位美艳女子吸引，登上一艘怪异的游艇，最终深陷一桩错综复杂的谋杀案。"
+                  },
+    "tt26440619":  {
+                       "dir":  "克里斯蒂安·佩措尔德",
+                       "min":  102,
+                       "genres":  "Comedy,Drama,Romance",
+                       "imdbRating":  7,
+                       "country":  "DE",
+                       "kind":  "Movie",
+                       "synopsis":  "几个朋友在波罗的海边的度假屋里度夏，四周干旱的森林燃起山火，屋里的情绪也一点点升温。"
+                   },
+    "tt0234837":  {
+                      "dir":  "娄烨",
+                      "min":  83,
+                      "genres":  "Drama,Romance",
+                      "imdbRating":  7.4,
+                      "country":  "CN",
+                      "kind":  "Movie",
+                      "synopsis":  "刚出狱的马达，在苏州河边遇见一个和他失踪的恋人长得一模一样的女人。"
+                  },
+    "tt0084248":  {
+                      "dir":  "谭家明",
+                      "min":  96,
+                      "genres":  "Drama,Romance,Thriller",
+                      "imdbRating":  6.7,
+                      "country":  "HK",
+                      "kind":  "Movie",
+                      "synopsis":  "两对分属富家与平民的香港年轻情侣，终日游荡、梦想远走，直到一个从日本逃来的前赤军成员闯入他们的生活。"
+                  },
+    "tt9581076":  {
+                      "dir":  "王小帅",
+                      "min":  185,
+                      "genres":  "Drama",
+                      "imdbRating":  7.7,
+                      "country":  "CN",
+                      "kind":  "Movie",
+                      "synopsis":  "两个家庭，从八十年代一路走到今天，在时代的巨变里失去、隐忍、和解。"
+                  },
+    "tt4080598":  {
+                      "dir":  "武正晴",
+                      "min":  113,
+                      "genres":  "Comedy,Drama",
+                      "imdbRating":  7.1,
+                      "country":  "JP",
+                      "kind":  "Movie",
+                      "synopsis":  "三十二岁、赖在家里啃老的一子，遇见了一个拳击手，终于开始了自己的人生。"
+                  },
+    "tt0108394":  {
+                      "dir":  "基耶斯洛夫斯基",
+                      "min":  98,
+                      "genres":  "Drama,Music,Mystery",
+                      "imdbRating":  7.8,
+                      "country":  "FR",
+                      "kind":  "Movie",
+                      "synopsis":  "一场车祸夺走了朱莉的丈夫和女儿，她试图抹去过去、与世隔绝，却一次次被意外的人与事拉回人间。"
+                  },
+    "tt2036416":  {
+                      "dir":  "九把刀",
+                      "min":  109,
+                      "genres":  "Comedy,Drama,Romance",
+                      "imdbRating":  7.5,
+                      "country":  "TW",
+                      "kind":  "Movie",
+                      "synopsis":  "一群死党都暗恋班上的优等生沈佳宜，只有柯景腾嘴硬说不喜欢——结果他也爱上了她。"
+                  },
+    "tt0038109":  {
+                      "dir":  "阿尔弗雷德·希区柯克",
+                      "min":  111,
+                      "genres":  "Drama,Film-Noir,Mystery",
+                      "imdbRating":  7.5,
+                      "country":  "US",
+                      "kind":  "Movie",
+                      "synopsis":  "女精神科医生为一个被控谋杀的失忆病人隐瞒身份，一边帮他找回记忆。"
+                  },
+    "tt4613272":  {
+                      "dir":  "毕赣",
+                      "min":  113,
+                      "genres":  "Drama,Mystery",
+                      "imdbRating":  7.3,
+                      "country":  "CN",
+                      "kind":  "Movie",
+                      "synopsis":  "乡村医生陈升去寻找被卖掉的侄子，途经一个叫荡麦的地方，在那里与过去和未来的人相遇。"
+                  },
+    "tt32880592":  {
+                       "dir":  "洪常秀",
+                       "min":  111,
+                       "genres":  "Drama",
+                       "imdbRating":  6.7,
+                       "country":  "KR",
+                       "kind":  "Movie",
+                       "synopsis":  "大学讲师全任说服舅舅来为学生排演短剧。她在溪边写生时，学生之间闹出一桩丑闻，把她和舅舅也卷了进去。"
+                   },
+    "tt0107156":  {
+                      "dir":  "李安",
+                      "min":  106,
+                      "genres":  "Comedy,Drama,Romance",
+                      "imdbRating":  7.6,
+                      "country":  "TW",
+                      "kind":  "Movie",
+                      "synopsis":  "为了应付催婚的父母，同性恋的伟同和女房客假结婚，没想到父母从台湾飞来纽约，事情一发不可收拾。"
+                  },
+    "tt0245929":  {
+                      "dir":  "姜文",
+                      "min":  139,
+                      "genres":  "Comedy,Drama,War",
+                      "imdbRating":  8.2,
+                      "country":  "CN",
+                      "kind":  "Movie",
+                      "synopsis":  "抗战年间，挂甲台的村民被人塞来一个日本兵和一个翻译官，杀也不是，放也不是。"
+                  },
+    "tt0087537":  {
+                      "dir":  "塔维亚尼兄弟",
+                      "min":  187,
+                      "genres":  "Comedy,Drama,Romance",
+                      "imdbRating":  7.8,
+                      "country":  "IT",
+                      "kind":  "Movie",
+                      "synopsis":  "改编自皮兰德娄的五个短篇，发生在世纪之交的西西里。"
+                  },
+    "tt0087843":  {
+                      "dir":  "赛尔乔·莱昂内",
+                      "min":  229,
+                      "genres":  "Crime,Drama",
+                      "imdbRating":  8.3,
+                      "country":  "IT",
+                      "kind":  "Movie",
+                      "synopsis":  "一个前纽约黑帮分子在流亡数十年后归来，重新面对那些塑造了他一生的友情、梦想与悔恨。"
+                  },
+    "tt0069293":  {
+                      "dir":  "安德烈·塔可夫斯基",
+                      "min":  167,
+                      "genres":  "Adventure,Drama,Mystery",
+                      "imdbRating":  7.9,
+                      "country":  "SUHH",
+                      "kind":  "Movie",
+                      "synopsis":  "心理学家凯尔文被派往环绕遥远行星\"索拉里斯\"的空间站，调查船员为何接连发疯。"
+                  },
+    "tt0064451":  {
+                      "dir":  "胡金铨",
+                      "min":  200,
+                      "genres":  "Action,Adventure,Drama",
+                      "imdbRating":  7.5,
+                      "country":  "TW",
+                      "kind":  "Movie",
+                      "synopsis":  "一个被阉党追杀的女子，与一个胸无大志的书生、几位身怀绝技的高僧，一同对抗朝中的奸佞。"
+                  },
+    "tt0064165":  {
+                      "dir":  "克劳德·苏提",
+                      "min":  89,
+                      "genres":  "Drama,Romance",
+                      "imdbRating":  7.4,
+                      "country":  "FR",
+                      "kind":  "Movie",
+                      "synopsis":  "一位公路工程师遭遇车祸，在生死之间，回想起事故之前的那段生活。"
+                  },
+    "tt0130827":  {
+                      "dir":  "汤姆·提克威",
+                      "min":  80,
+                      "genres":  "Action,Crime,Thriller",
+                      "imdbRating":  7.6,
+                      "country":  "DE",
+                      "kind":  "Movie",
+                      "synopsis":  "一次送钱出了岔子，罗拉只有二十分钟去凑够十万马克。"
+                  },
+    "tt0102926":  {
+                      "dir":  "乔纳森·戴米",
+                      "min":  118,
+                      "genres":  "Crime,Drama,Horror",
+                      "imdbRating":  8.6,
+                      "country":  "US",
+                      "kind":  "Movie",
+                      "synopsis":  "年轻的 FBI 学员克拉丽丝，在一个善于操纵人心的食人魔帮助下，追捕剥人皮的连环杀手。"
+                  },
+    "tt0220644":  {
+                      "dir":  "杜琪峰",
+                      "min":  84,
+                      "genres":  "Action,Crime",
+                      "imdbRating":  7.5,
+                      "country":  "HK",
+                      "kind":  "Movie",
+                      "synopsis":  "黑帮老大文哥险遭暗杀，请来五个杀手做保镖。五人渐生默契，直到文哥下了一道特别的命令。"
+                  },
+    "tt17146978":  {
+                       "dir":  "洪常秀",
+                       "min":  92,
+                       "genres":  "Drama",
+                       "imdbRating":  6.8,
+                       "country":  "KR",
+                       "kind":  "Movie",
+                       "synopsis":  "一位小说家去探望久未联络的后辈开的书店，又和一位导演夫妇散步，遇见一位女演员，想说服她一起拍一部电影。"
+                   },
+    "tt0096332":  {
+                      "dir":  "菲利普·考夫曼",
+                      "min":  171,
+                      "genres":  "Drama,Romance",
+                      "imdbRating":  7.2,
+                      "country":  "US",
+                      "kind":  "Movie",
+                      "synopsis":  "1968 年的布拉格，外科医生托马斯在爱情与轻浮之间摇摆，妻子特蕾莎为此痛苦，而苏联坦克又打乱了一切。"
+                  },
+    "tt2852400":  {
+                      "dir":  "贾樟柯",
+                      "min":  130,
+                      "genres":  "Crime,Drama",
+                      "imdbRating":  7.1,
+                      "country":  "CN",
+                      "kind":  "Movie",
+                      "synopsis":  "四个彼此独立的故事，发生在当代中国，关于突如其来的暴力。"
+                  },
+    "tt10883506":  {
+                       "dir":  "钟孟宏",
+                       "min":  156,
+                       "genres":  "Crime,Drama",
+                       "imdbRating":  7.6,
+                       "country":  "TW",
+                       "kind":  "Movie",
+                       "synopsis":  "一个四口之家，在落空的期望、意外的悲剧和不肯低头的自尊之下，慢慢裂开。"
+                   },
+    "tt0114863":  {
+                      "dir":  "西奥·安哲罗普洛斯",
+                      "min":  176,
+                      "genres":  "Drama,War",
+                      "imdbRating":  7.6,
+                      "country":  "GR",
+                      "kind":  "Movie",
+                      "synopsis":  "一位流亡的导演回到故乡，寻找巴尔干第一部失落的影片，早年的谜团与伤痛再次向他涌来。"
+                  },
+    "tt0110912":  {
+                      "dir":  "昆汀·塔伦蒂诺",
+                      "min":  154,
+                      "genres":  "Crime,Drama",
+                      "imdbRating":  8.8,
+                      "country":  "US",
+                      "kind":  "Movie",
+                      "synopsis":  "两个黑帮杀手、一个拳击手、一个黑帮老大和他的妻子、一对餐馆劫匪——四段关于暴力与救赎的故事彼此交错。"
+                  },
+    "tt4772188":  {
+                      "dir":  "金兹·兹巴洛迪斯",
+                      "min":  85,
+                      "genres":  "Animation,Adventure,Family",
+                      "imdbRating":  7.8,
+                      "country":  "LV",
+                      "kind":  "Movie",
+                      "synopsis":  "一场大洪水淹没了家园，独来独往的小黑猫躲上一条小船，只好和船上各种各样的动物同舟共济。"
+                  },
+    "tt0072684":  {
+                      "dir":  "斯坦利·库布里克",
+                      "min":  185,
+                      "genres":  "Adventure,Drama,War",
+                      "imdbRating":  8.1,
+                      "country":  "GB",
+                      "kind":  "Movie",
+                      "synopsis":  "十八世纪，一个爱尔兰浪子赢得富孀的芳心，顶替了她亡夫的贵族身份。"
+                  },
+    "tt1863192":  {
+                      "dir":  "乔治·奥瓦什维利",
+                      "min":  100,
+                      "genres":  "Drama,War",
+                      "imdbRating":  7.4,
+                      "country":  "GE",
+                      "kind":  "Movie",
+                      "synopsis":  "河流创造一切，也带走一切，这永恒的循环，人也无法逃脱。"
+                  },
+    "tt0086022":  {
+                      "dir":  "安德烈·塔可夫斯基",
+                      "min":  125,
+                      "genres":  "Drama",
+                      "imdbRating":  7.9,
+                      "country":  "IT",
+                      "kind":  "Movie",
+                      "synopsis":  "一位俄国诗人和他的翻译来到意大利，追寻一位十八世纪作曲家的足迹，却遇见一个沉思的\"疯子\"，告诉他世界如何得救。"
+                  },
+    "tt0156794":  {
+                      "dir":  "西奥·安哲罗普洛斯",
+                      "min":  137,
+                      "genres":  "Drama",
+                      "imdbRating":  7.8,
+                      "country":  "FR",
+                      "kind":  "Movie",
+                      "synopsis":  "身患重病、时日无多的作家亚历山大，在街头遇见一个偷渡而来的阿尔巴尼亚小男孩，决定送他回家。"
+                  },
+    "tt0478160":  {
+                      "dir":  "菲利普·格罗宁",
+                      "min":  169,
+                      "genres":  "Documentary",
+                      "imdbRating":  7.3,
+                      "country":  "FR",
+                      "kind":  "Movie",
+                      "synopsis":  "走进法国大沙特勒兹修道院，记录加尔都西会修士几乎无声的日常。"
+                  },
+    "tt0096908":  {
+                      "dir":  "侯孝贤",
+                      "min":  157,
+                      "genres":  "Drama,History",
+                      "imdbRating":  7.7,
+                      "country":  "TW",
+                      "kind":  "Movie",
+                      "synopsis":  "一个家族的命运，被卷入四十年代末国民党来台后的\"白色恐怖\"之中。"
+                  },
+    "tt0274558":  {
+                      "dir":  "史蒂芬·戴德利",
+                      "min":  114,
+                      "genres":  "Drama,Romance",
+                      "imdbRating":  7.5,
+                      "country":  "US",
+                      "kind":  "Movie",
+                      "synopsis":  "小说《达洛维夫人》牵起三个时代的三个女人，她们都以各自的方式，与死亡的念头相处。"
+                  },
+    "tt0258885":  {
+                      "dir":  "贾樟柯",
+                      "min":  154,
+                      "genres":  "Drama,History",
+                      "imdbRating":  7.4,
+                      "country":  "CN",
+                      "kind":  "Movie",
+                      "synopsis":  "汾阳县的一个文工团，在八十年代的社会变迁里，从样板戏走向流行歌舞。"
+                  }
+}

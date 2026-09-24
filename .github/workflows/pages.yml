@@ -1,0 +1,57 @@
+name: 同步 Notion 并发布放映室
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 20 * * *'   # 每天北京时间 04:00
+  workflow_dispatch:        # 在 Actions 页面手动点"Run workflow"立即同步
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: 从 Notion 同步片单和影评
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: |
+          if [ -z "$NOTION_TOKEN" ]; then echo "还没配置 NOTION_TOKEN，跳过同步，发布现有快照"; exit 0; fi
+          node scripts/sync.mjs
+      - name: 提交同步结果
+        run: |
+          git config user.name "fangyingshi-bot"
+          git config user.email "fangyingshi-bot@users.noreply.github.com"
+          git add site/data.js site/posters data
+          git diff --cached --quiet || git commit -m "同步 Notion 片单 $(date -u +%F)"
+          git push || true
+      - name: 组装完整页面（源文件是 Artifact 用的片段）
+        run: |
+          { printf '<!doctype html>\n<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="referrer" content="no-referrer">\n'; cat site/index.html; printf '\n</html>\n'; } > /tmp/index.html
+          mv /tmp/index.html site/index.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
