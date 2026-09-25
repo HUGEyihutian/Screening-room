@@ -70,7 +70,10 @@ async function poster(tt, file) {
     if (!d?.i?.imageUrl) return false;
     const r = await fetch(d.i.imageUrl.replace(/\._V1_.*\.jpg$/, '._V1_QL82_UX500_.jpg'));
     if (!r.ok) return false;
-    await fs.writeFile(file, Buffer.from(await r.arrayBuffer())); return true;
+    await fs.writeFile(file, Buffer.from(await r.arrayBuffer()));
+    const hd = await fetch(d.i.imageUrl.replace(/\._V1_.*\.jpg$/, '._V1_QL80_UX1100_.jpg'));   // 片头推镜头用
+    if (hd.ok) await fs.writeFile(file.replace(/posters([\\/])/, 'posters-hd$1'), Buffer.from(await hd.arrayBuffer()));
+    return true;
   } catch (e) { console.warn('海报失败', tt, e.message); return false; }
 }
 
