@@ -255,6 +255,30 @@ main{position:fixed;inset:0}
 .menu button:hover{background:var(--raise);color:var(--ink)}
 .menu hr{border:0;border-top:1px solid var(--line);margin:4px 0}
 
+/* ——— 入场 / 唱片机 ——— */
+.i-gate{position:absolute;inset:0;z-index:2;justify-content:center;display:flex;flex-direction:column;align-items:center;gap:22px;color:#cfc5b1;text-align:center}
+.i-gate .g-l{font-family:var(--mono);font-size:12px;letter-spacing:.5em;color:#e0a94a}
+.g-btn{border:1px solid rgba(239,231,214,.5);background:transparent;color:#f1e9d8;border-radius:999px;padding:14px 46px;font-family:var(--serif);font-size:22px;letter-spacing:.5em;text-indent:.5em;transition:.3s}
+.g-btn:hover{background:#f1e9d8;color:#0a0908;box-shadow:0 0 50px rgba(255,236,196,.35)}
+.i-gate .g-s{font-size:12px;letter-spacing:.2em;color:#7b7263}
+#soundBtn .mute{display:none}
+#soundBtn[aria-pressed="false"] .wave{display:none}
+#soundBtn[aria-pressed="false"] .mute{display:inline}
+#soundBtn[aria-pressed="true"]{color:var(--amber);border-color:var(--amber)}
+#spBtn[aria-expanded="true"]{color:var(--amber);border-color:var(--amber)}
+.sp-panel{position:absolute;top:calc(var(--hdr) - 4px);right:16px;z-index:35;width:min(380px,calc(100vw - 32px));background:var(--ground-2);border:1px solid var(--line-2);border-radius:10px;padding:14px;box-shadow:0 24px 60px rgba(0,0,0,.4);display:grid;gap:10px}
+.sp-head{display:flex;justify-content:space-between;align-items:baseline}
+.sp-head b{font-family:var(--serif);letter-spacing:.3em;font-size:15px}
+.sp-head span{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.1em;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-embed{min-height:0;border-radius:12px;overflow:hidden}
+.sp-embed iframe{display:block;width:100%;border:0}
+.sp-form{display:flex;gap:8px}
+.sp-form input{flex:1;min-width:0;background:var(--ground);border:1px solid var(--line-2);border-radius:999px;padding:6px 12px;font-size:13px}
+.sp-foot{display:flex;justify-content:space-between;font-size:12.5px}
+.sp-foot a,.linkish{color:var(--ink-3);text-decoration:none;border:0;background:none;padding:0;font-size:12.5px;border-bottom:1px solid var(--line-2)}
+.sp-foot a:hover,.linkish:hover{color:var(--amber)}
+.sp-panel .note:empty{display:none}
+
 @media (max-width:760px){
   .brand span,.status span{display:none}
   .bar{gap:8px}
@@ -265,6 +289,7 @@ main{position:fixed;inset:0}
   .caption{padding-top:18px}
   .add-btn{padding:6px 10px}
 }
+@media (max-width:480px){.status{display:none}.bar .icon-btn{width:30px;height:30px}.seg button{padding:5px 9px}.brand b{letter-spacing:.18em}}
 @media (prefers-reduced-motion:reduce){
   .beam{animation:none}
   .cap-title .ch{animation:none}
@@ -284,6 +309,15 @@ main{position:fixed;inset:0}
     <button id="vSheet" aria-pressed="false">印样</button>
   </div>
   <button class="add-btn" id="addBtn" title="添加一部电影">＋ 添加</button>
+  <button class="icon-btn" id="soundBtn" title="背景音乐 开 / 关" aria-label="背景音乐" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="wave" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/><path class="mute" d="M16 9.5l5 5M21 9.5l-5 5"/></svg></button>
+  <button class="icon-btn" id="spBtn" title="唱片机：用 Spotify 自己选歌" aria-label="唱片机" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.2"/><path d="M12 3.5a8.5 8.5 0 0 1 8.5 8.5"/></svg></button>
+  <div class="sp-panel" id="spPanel" hidden>
+    <div class="sp-head"><b>唱片机</b><span id="spNow">Spotify</span></div>
+    <div class="sp-embed" id="spEmbed"></div>
+    <form class="sp-form" id="spForm"><input id="spUrl" placeholder="粘贴 Spotify 歌单 / 专辑 / 单曲链接" aria-label="Spotify 链接"><button class="ghost" type="submit">换上</button></form>
+    <div class="sp-foot"><button type="button" class="linkish" id="spReset">恢复默认歌单</button><a id="spOpen" target="_blank" rel="noopener">在 Spotify 打开 ↗</a></div>
+    <p class="note" id="spNote"></p>
+  </div>
   <button class="icon-btn" id="roomBtn" title="切换 放映厅 / 灯箱" aria-label="切换明暗"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg></button>
   <button class="icon-btn" id="menuBtn" title="更多" aria-label="更多" aria-expanded="false"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></button>
   <div class="menu" id="menu" hidden>
@@ -401,6 +435,11 @@ main{position:fixed;inset:0}
 
 <div id="intro" hidden>
   <canvas id="introCv"></canvas>
+  <div class="i-gate" id="iGate" hidden>
+    <span class="g-l">本 场 放 映</span>
+    <button class="g-btn" id="enterBtn">入 场</button>
+    <span class="g-s">有声音 · 建议戴上耳机</span>
+  </div>
   <div class="i-title" id="iTitle"><b>放映室</b><span id="iSub"></span></div>
   <button class="skip" id="skip">跳过片头 ›</button>
 </div>
@@ -409,4 +448,5 @@ main{position:fixed;inset:0}
 
 <script src="data.js"></script>
 <script src="focal.js"></script>
+<script src="sound.js"></script>
 <script src="app.js"></script>

@@ -778,6 +778,88 @@ if (window.ResizeObserver) new ResizeObserver(onResize).observe(document.documen
   raf(draw);
 })();
 
+/* ================= 声音：背景乐 + 唱片机 ================= */
+const FX = window.FySound || null;
+const snd = {
+  fx: FX,
+  unlock() { try { return FX ? FX.unlock() : false; } catch { return false; } },
+  on() { return !!(FX && FX.unlocked); },
+  pref() { return store.get('fy.bgm', true); },
+  bgmAuto() { if (snd.pref() && !spPlaying && snd.unlock()) FX.bgmStart(); syncSoundBtn(); },
+};
+let spPlaying = false;
+function syncSoundBtn() { $('#soundBtn').setAttribute('aria-pressed', String(!!(FX && FX.bgmOn))); }
+$('#soundBtn').onclick = () => {
+  if (!FX) { toast('这个浏览器不支持网页音频'); return; }
+  snd.unlock();
+  if (FX.bgmOn) { FX.bgmStop(); store.set('fy.bgm', false); toast('背景音乐已关'); }
+  else { FX.bgmStart(); store.set('fy.bgm', true); toast('背景音乐：夜场'); }
+  syncSoundBtn();
+};
+// 没看片头（本次会话看过了）时，第一次点击页面就开始背景乐
+document.addEventListener('pointerdown', function first(e) {
+  if (!$('#intro').hidden) return;
+  document.removeEventListener('pointerdown', first, true);
+  if (!e.target.closest('#soundBtn')) setTimeout(() => snd.bgmAuto(), 200);
+}, true);
+
+// 唱片机：Spotify。公开网站里直接嵌播放器；在 Claude 里（不能嵌外站）就给一个打开链接
+const SP_DEFAULT = 'https://open.spotify.com/playlist/6uM9ayCvEL8j1Xp1QNeRES';   // 香港电影的热门配乐
+const inClaude = !!(window.claude && typeof window.claude.use === 'function');
+function spParse(u) {
+  const m = String(u || '').trim().match(/(?:open\.spotify\.com\/(?:intl-[a-z-]+\/)?(?:embed\/)?|spotify:)(playlist|album|track|artist|episode|show)[\/:]([A-Za-z0-9]{10,40})/);
+  return m ? { type: m[1], id: m[2], uri: `spotify:${m[1]}:${m[2]}`, url: `https://open.spotify.com/${m[1]}/${m[2]}` } : null;
+}
+let spCtl = null, spApiLoading = false, spApi = null;
+function spRender() {
+  const it = spParse(store.get('fy.spotify', SP_DEFAULT)) || spParse(SP_DEFAULT);
+  $('#spOpen').href = it.url;
+  $('#spNow').textContent = { playlist: '歌单', album: '专辑', track: '单曲', artist: '艺人', episode: '单集', show: '播客' }[it.type] + ' · ' + it.id.slice(0, 8) + '…';
+  const box = $('#spEmbed');
+  if (inClaude) {
+    box.innerHTML = ''; $('#spNote').textContent = '在 Claude 里不能嵌入 Spotify 播放器。点"在 Spotify 打开"，或到公开网站上用。';
+    return;
+  }
+  $('#spNote').textContent = '';
+  const h = it.type === 'track' || it.type === 'episode' ? 152 : 352;
+  if (spApi) {           // 官方 iFrame API：能知道你是否在播放，好让背景乐自动让位
+    box.innerHTML = '<div id="spMount"></div>';
+    spApi.createController($('#spMount'), { uri: it.uri, width: '100%', height: h, theme: 'dark' }, ctl => {
+      spCtl = ctl;
+      ctl.addListener('playback_update', e => {
+        const playing = e && e.data && !e.data.isPaused;
+        if (playing && !spPlaying && FX && FX.bgmOn) { FX.bgmStop(1.2); syncSoundBtn(); }
+        spPlaying = !!playing;
+      });
+    });
+  } else {
+    box.innerHTML = `<iframe title="Spotify 播放器" src="https://open.spotify.com/embed/${it.type}/${it.id}?theme=0" height="${h}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+  }
+}
+function spEnsureApi(done) {
+  if (inClaude || spApi || spApiLoading) return done();
+  spApiLoading = true;
+  const timer = setTimeout(done, 4000);   // 加载不到 API 就退回普通嵌入
+  window.onSpotifyIframeApiReady = api => { spApi = api; clearTimeout(timer); done(); };
+  const s = document.createElement('script'); s.src = 'https://open.spotify.com/embed/iframe-api/v1'; s.async = true;
+  s.onerror = () => { clearTimeout(timer); done(); };
+  document.head.appendChild(s);
+}
+$('#spBtn').onclick = e => {
+  e.stopPropagation();
+  const p = $('#spPanel'), open = p.hidden;
+  p.hidden = !open; $('#spBtn').setAttribute('aria-expanded', String(open));
+  if (open && !p.dataset.ready) { p.dataset.ready = '1'; spEnsureApi(spRender); }
+};
+document.addEventListener('click', e => { if (!e.target.closest('#spPanel') && !e.target.closest('#spBtn')) { $('#spPanel').hidden = true; $('#spBtn').setAttribute('aria-expanded', 'false'); } });
+$('#spForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const it = spParse($('#spUrl').value);
+  if (!it) { $('#spNote').textContent = '没认出来。请粘贴 open.spotify.com 开头的歌单、专辑或单曲链接。'; return; }
+  store.set('fy.spotify', it.url); $('#spUrl').value = ''; spRender(); toast('唱片机换上了新唱片');
+});
+$('#spReset').onclick = () => { store.del('fy.spotify'); spRender(); };
+
 /* ================= 片头 ================= */
 let introRun = 0;
 function endIntro() {
@@ -785,17 +867,30 @@ function endIntro() {
   introRun++;
   it.classList.add('out');
   sess.set('fy.intro', '1');
+  $('#iGate').hidden = true;
+  if (snd.on()) { snd.fx.stopAllSfx(); setTimeout(() => snd.bgmAuto(), 1500); }
   // 胶片从右侧"显影"进场
   if (!reduced && filmEntries.length) { pos = target + innerWidth * 0.9; }
   setTimeout(() => { it.hidden = true; it.classList.remove('out'); }, 1150);
   gate.focus({ preventScroll: true });
 }
-$('#skip').onclick = endIntro;
+$('#skip').onclick = () => { snd.unlock(); endIntro(); };
 
 function playIntro(force) {
   if (!force && (sess.get('fy.intro') || reduced)) return;
-  const run = ++introRun;
   const it = $('#intro'), cv = $('#introCv'), cx = cv.getContext('2d');
+  // 浏览器只允许用户点一下之后才出声音：自动播放前先停在"入场"
+  if (!force) {
+    it.hidden = false; it.classList.remove('out');
+    cx.fillStyle = '#000'; cx.fillRect(0, 0, cv.width, cv.height);
+    $('#iTitle').classList.remove('on'); $('#iGate').hidden = false;
+    $('#enterBtn').onclick = () => { $('#iGate').hidden = true; snd.unlock(); playIntro(true); };
+    $('#enterBtn').focus({ preventScroll: true });
+    return;
+  }
+  $('#iGate').hidden = true; snd.unlock();
+  if (FX && FX.bgmOn) { FX.bgmStop(.6); syncSoundBtn(); }
+  const run = ++introRun;
   it.hidden = false; it.classList.remove('out');
   $('#iTitle').classList.remove('on');
   $('#iSub').textContent = `三卷胶片 · ${films.length} 格`;
@@ -1087,6 +1182,22 @@ function playIntro(force) {
     noise(.25); vignette(.9);
   }
 
+  // —— 声音：在每个镜头切换的那一刻打点 ——
+  let cuedSeg = -1;
+  function cue(g, prev) {
+    if (!snd.on()) return;
+    const fx = snd.fx;
+    switch (g.kind) {
+      case 'slow': if (g.i === 0) { fx.droneOn(3); fx.projectorLevel(.22, 1); } fx.tick(.12); break;
+      case 'whip': fx.whoosh(.16, .55); break;
+      case 'build': fx.hit(g.slam ? 1 : .8, !!g.slam); if (g.i === 0) fx.droneSwell(.18, 900, 3); break;
+      case 'split': [0, 90, 180].forEach(d => setTimeout(() => fx.whoosh(.12, .4), d)); fx.riser(2.3); break;
+      case 'rapid': g.flash ? fx.flash() : fx.tick(.24); if (g.i === 0) fx.hit(.5); break;
+      case 'run': fx.projectorLevel(.7, .05); fx.projectorRate(3.2, .05); setTimeout(() => fx.projectorRate(.35, 1.1), 60); fx.droneSwell(.26, 2600, 1.2); break;
+      case 'burn': fx.burn(.9); fx.projectorOff(.8); break;
+      case 'title': fx.droneOff(.04); fx.projectorOff(.04); setTimeout(() => fx.titleChord(), 380); break;
+    }
+  }
   const t0 = now();
   function tick(tt) {
     if (run !== introRun) return;
@@ -1095,6 +1206,12 @@ function playIntro(force) {
     if (t >= TOTAL) { endIntro(); return; }
     while (lastSeg < segs.length - 1 && t >= segs[lastSeg].t0 + segs[lastSeg].dur) lastSeg++;
     const g = segs[lastSeg], p = clamp((t - g.t0) / g.dur, 0, 1);
+    if (lastSeg !== cuedSeg) { cuedSeg = lastSeg; cue(g, segs[lastSeg - 1]); }
+    if (g.kind === 'warm' && snd.on()) {   // 灯泡打火两次，然后放映机转起来
+      if (!g.s1 && p > .28) { g.s1 = 1; snd.fx.lampStrike(); }
+      if (!g.s2 && p > .5) { g.s2 = 1; snd.fx.lampStrike(); snd.fx.projectorOn(.45); }
+    }
+    if (g.kind === 'leader' && snd.on()) { const n = Math.floor((t - g.t0) / 800); if (n !== g.lastN) { g.lastN = n; snd.fx.beep(n === 1 ? 1000 : 800, n === 1 ? .14 : .06, n === 1 ? .7 : .3); } }
     const wv = (g.kind === 'slow' || g.kind === 'build') ? Math.sin(tt / 60) * .6 * S : 0;   // 片门轻微抖动
     cx.save(); cx.translate(0, wv);
     switch (g.kind) {
