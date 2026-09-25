@@ -28,7 +28,12 @@ jobs:
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
         run: |
-          if [ -z "$NOTION_TOKEN" ]; then echo "还没配置 NOTION_TOKEN，跳过同步，发布现有快照"; exit 0; fi
+          if [ -z "$NOTION_TOKEN" ]; then
+            msg="⚠️ 没读到 NOTION_TOKEN，这次没有同步，网站仍是旧快照。请到 Settings → Secrets and variables → Actions → **Secrets** 标签页（不是 Variables，也不是 Environments）→ Repository secrets，新建名为 NOTION_TOKEN 的密钥，然后重跑。"
+            echo "::warning title=没有同步 Notion::$msg"
+            echo "$msg" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
           node scripts/sync.mjs
       - name: 提交同步结果
         run: |

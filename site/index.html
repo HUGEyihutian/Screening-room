@@ -150,12 +150,12 @@ main{position:fixed;inset:0}
   padding:18px 0;border-radius:2px;position:relative}
 .contact .perf{height:12px;background:var(--perf);-webkit-mask-size:16px 11px;mask-size:16px 11px}
 .contact .perf.t{top:3px}.contact .perf.b{bottom:3px}
-.shot{position:relative;margin:4px 5px 22px;border:0;padding:0;background:none;text-align:left;color:#e9e1d0}
+.shot{position:relative;display:flex;flex-direction:column;gap:5px;min-width:0;margin:2px 5px 12px;border:0;padding:0;background:none;text-align:left;color:#e9e1d0}
 .shot .ph{aspect-ratio:2/3;background:#000;overflow:hidden;border-radius:1px;position:relative}
 .shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.7,.2,1),filter .5s}
 .shot:hover img,.shot:focus-visible img{transform:scale(1.06);filter:brightness(1.12)}
-.shot .no{position:absolute;left:0;top:-15px;font-family:var(--mono);font-size:9.5px;color:var(--amber);letter-spacing:.12em;opacity:.8}
-.shot .nm{position:absolute;left:0;right:0;bottom:-19px;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#d9d0bd}
+.shot .no{font-family:var(--mono);font-size:9.5px;line-height:1;color:var(--amber);letter-spacing:.12em;opacity:.8}
+.shot .nm{display:block;font-size:11.5px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#d9d0bd}
 .shot .mk{position:absolute;right:4px;top:4px;font-size:10px;color:#ffd58a;text-shadow:0 1px 3px #000}
 .shot.dim{opacity:.18}
 .empty{padding:60px 0;text-align:center;color:var(--ink-3)}

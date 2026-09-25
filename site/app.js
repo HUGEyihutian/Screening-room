@@ -82,7 +82,7 @@ function fromSnapshot() {
 }
 function snapshotStatus() {
   const t = window.FILM_SYNCED_AT;
-  if (!t) return '离线片单（只读）';
+  if (!t) return '初始快照（尚未同步）';
   const d = new Date(t);
   return `每日同步自 Notion · ${d.getMonth() + 1}月${d.getDate()}日`;
 }
@@ -383,8 +383,8 @@ function buildSheet() {
     grid.innerHTML = '<div class="perf t"></div><div class="perf b"></div>';
     list.forEach(({ f, n }) => {
       const b = el('button', 'shot'); b.type = 'button';
-      b.innerHTML = `<span class="no">${String(n).padStart(3, '0')}A</span><div class="ph">${posterHTML(f)}</div>
-        ${f.stars ? `<span class="mk">${'★'.repeat(f.stars)}</span>` : ''}<span class="nm">${esc(f.title)}</span>`;
+      b.innerHTML = `<span class="no">${String(n).padStart(3, '0')}A</span><div class="ph">${posterHTML(f)}${f.stars ? `<span class="mk">${'★'.repeat(f.stars)}</span>` : ''}</div>
+        <span class="nm">${esc(f.title)}</span>`;
       b.title = `${f.title}${f.year ? ' · ' + f.year : ''}${f.dir ? ' · ' + f.dir : ''}`;
       b.onclick = () => openDetail(f, b.querySelector('.ph'));
       grid.appendChild(b);
@@ -724,7 +724,14 @@ $('#roomBtn').onclick = () => setRoom(document.documentElement.dataset.room === 
 $('#menuBtn').onclick = e => { e.stopPropagation(); const m = $('#menu'); m.hidden = !m.hidden; $('#menuBtn').setAttribute('aria-expanded', String(!m.hidden)); };
 document.addEventListener('click', e => { if (!e.target.closest('#menu')) $('#menu').hidden = true; });
 $('#mIntro').onclick = () => { $('#menu').hidden = true; playIntro(true); };
-$('#mSync').onclick = () => { $('#menu').hidden = true; if (mcp) syncNotion(true); else toast('这个环境连不到 Notion，显示的是离线片单'); };
+$('#mSync').onclick = () => {
+  $('#menu').hidden = true;
+  if (mcp) return syncNotion(true);
+  // 公开网站不直接连 Notion：GitHub 每天自动把 Notion 的片单和影评同步过来
+  const t = window.FILM_SYNCED_AT;
+  toast(t ? `公开版每天凌晨 4 点自动从 Notion 同步，最近一次：${new Date(t).toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}。在 Notion 里改完想马上看到，就去 GitHub 的 Actions 手动运行一次。`
+    : '公开版还没从 Notion 同步过（现在是初始快照）。配置好 NOTION_TOKEN 后，GitHub 每天凌晨 4 点会自动同步。', 8000);
+};
 $('#mKeys').onclick = () => { $('#menu').hidden = true; };
 
 document.addEventListener('keydown', e => {
@@ -1244,7 +1251,7 @@ playIntro(false);
 
 (async () => {
   const cl = window.claude;
-  if (!cl || typeof cl.use !== 'function') { setStatus('off', snapshotStatus()); $('#addBtn').hidden = true; return; }
+  if (!cl || typeof cl.use !== 'function') { setStatus('off', snapshotStatus()); $('#addBtn').hidden = true; $('#mSync').textContent = '同步说明'; return; }
   const [m, s, a] = await Promise.all(['mcp', 'sample', 'assets'].map(n => cl.use(n).catch(() => null)));
   mcp = m; sampleCap = s; assetsCap = a;
   if (!mcp) { setStatus('off', snapshotStatus()); $('#addBtn').hidden = true; return; }

@@ -13,7 +13,14 @@ async function notion(method, url, body) {
   for (let i = 0; i < 4; i++) {
     const r = await fetch('https://api.notion.com/v1' + url, { method, headers: H, body: body && JSON.stringify(body) });
     if (r.status === 429 || r.status >= 500) { await new Promise(s => setTimeout(s, 1500 * (i + 1))); continue; }
-    if (!r.ok) throw new Error(`Notion ${r.status}: ${await r.text()}`);
+    if (!r.ok) {
+      const body = await r.text();
+      const hint = r.status === 401 ? 'NOTION_TOKEN 不对：请重新复制集成的 Internal Integration Secret 填进 GitHub Secret。'
+        : r.status === 404 ? 'Notion 找不到「电影档案」数据库：请在 Notion 打开该数据库 → 右上角 ··· → 连接 → 添加你的集成。'
+        : '';
+      if (hint && process.env.GITHUB_STEP_SUMMARY) await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, `❌ ${hint}\n`);
+      throw new Error(`Notion ${r.status}${hint ? '：' + hint : ''}\n${body}`);
+    }
     return r.json();
   }
   throw new Error('Notion 多次重试失败');
@@ -130,4 +137,6 @@ const js = '// 由 scripts/sync.mjs 生成，勿手改\n' +
 await fs.writeFile(path.join(ROOT, 'site/data.js'), js);
 await fs.writeFile(path.join(ROOT, 'data/info.json'), JSON.stringify(info, null, 2));
 await fs.writeFile(path.join(ROOT, 'data/order.json'), JSON.stringify(newOrder, null, 2));
-console.log(`完成：${films.length} 部，影评 ${films.filter(f => f.review).length} 篇，海报 ${have.size} 张`);
+const done = `✅ 已从 Notion 同步：${films.length} 部，影评 ${films.filter(f => f.review).length} 篇，海报 ${have.size} 张`;
+console.log(done);
+if (process.env.GITHUB_STEP_SUMMARY) await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, done + '\n');
