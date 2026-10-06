@@ -39,6 +39,8 @@ const COUNTRY = { TW:'中国台湾', CN:'中国大陆', HK:'中国香港', US:'�
 const INFO = window.FILM_INFO || {};
 const POSTERS = new Set(window.FILM_POSTERS || []);
 const ORDER = new Map((window.FILM_SNAPSHOT || []).map((f, i) => [f.id, i]));
+const inClaude = !!(window.claude && typeof window.claude.use === 'function');
+const SHOTS = new Map((window.FILM_SNAPSHOT || []).map(f => [f.id, f.shots || []]));
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = s => document.querySelector(s);
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
@@ -77,14 +79,14 @@ function fromSnapshot() {
     id: s.id, imdb: s.imdb, title: s.title, orig: s.orig || '', en: s.en || '', year: s.year || null,
     group: s.group, cast: s.cast || '', douban: s.douban || '', line: s.line || '', stars: s.stars || 0, watched: s.watched || '',
     posterFile: '', seq: null, review: s.review || '', dir: s.dir || '', country: s.country || '', min: s.min || 0,
-    genres: s.genres || '', synopsis: s.synopsis || '',
+    genres: s.genres || '', synopsis: s.synopsis || '', shots: s.shots || [], shotFiles: [],
   }));
 }
 function snapshotStatus() {
   const t = window.FILM_SYNCED_AT;
   if (!t) return '初始快照（尚未同步）';
   const d = new Date(t);
-  return `每日同步自 Notion · ${d.getMonth() + 1}月${d.getDate()}日`;
+  return `自动同步自 Notion · ${d.getMonth() + 1}月${d.getDate()}日 ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
 }
 function fromRow(r) {
   return enrich({
@@ -93,6 +95,7 @@ function fromRow(r) {
     cast: r['主演'] || '', douban: r['豆瓣'] || '', line: r['一句话'] || '', stars: (r['我的评分'] || '').length,
     watched: r['date:观看日期:start'] || '', posterFile: r['海报文件'] || '', seq: r['序号'] ?? null,
     dir: r['导演'] || '', country: r['地区'] || '', min: r['片长'] || 0, genres: r['类型'] || '', synopsis: r['简介'] || '',
+    shots: SHOTS.get(pageId(r.url)) || [], shotFiles: String(r['剧照文件'] || '').split(',').map(x => x.trim()).filter(Boolean),
   });
 }
 function sortFilms(list) {
@@ -446,6 +449,7 @@ async function openDetail(f, fromEl) {
   else links.push(`<a href="https://search.douban.com/movie/subject_search?search_text=${encodeURIComponent(f.title)}" target="_blank" rel="noopener">在豆瓣搜索 ↗</a>`);
   links.push(`<a href="https://www.notion.so/${f.id}" target="_blank" rel="noopener">在 Notion 打开 ↗</a>`);
   $('#dLinks').innerHTML = links.join('');
+  gOpen = false; $('#galNote').textContent = ''; $('#galNote').className = 'note'; renderGallery();
   // 我的
   $('#dGroup').innerHTML = GROUPS.map(x => `<option ${x.key === f.group ? 'selected' : ''}>${x.key}</option>`).join('');
   $('#dDate').value = f.watched || '';
@@ -507,6 +511,7 @@ function flipIn(fromEl) {
   ], { duration: 700, easing: 'cubic-bezier(.2,.75,.15,1)' });
 }
 function closeDetail() {
+  if (!$('#lb').hidden) closeLightbox();
   if (dDirty && live) saveDraft();
   const d = $('#detail'); d.classList.remove('on'); d.hidden = true; dFilm = null;
   if (!$('#stripView').hidden) gate.focus({ preventScroll: true });
@@ -549,6 +554,109 @@ $('#dSave').onclick = async () => {
     note.className = 'note err'; note.textContent = '没保存上：' + errText(err) + '（草稿已留在本机）';
     saveDraft(); setStatus('err', 'Notion 写入失败');
   } finally { btn.disabled = !live; }
+};
+
+/* ================= 剧照与海报 ================= */
+// 每部片：仓库里存了前几张剧照（gallery/<tt>/n.jpg），更多的剧照和海报按编号直接从 IMDb 图库取。
+// 在 Claude 里外站图片会被拦，只显示存下来的那几张和自己上传的。
+const GALLERY = window.FILM_GALLERY || {};
+const cdn = (id, w) => `https://m.media-amazon.com/images/M/${id}._V1_QL80_UX${w}_.jpg`;
+const GAL_FOLD = 9;
+let gItems = [], gOpen = false, lbI = -1;
+
+function galleryItems(f) {
+  const g = GALLERY[f.imdb] || { l: 0, s: [], p: [] }, remote = !inClaude, out = [];
+  (f.shots || []).forEach(src => out.push({ kind: 'mine', thumb: src, full: src, ar: 1.5 }));
+  (f.shotFiles || []).forEach(id => out.push({ kind: 'mine', thumb: '/_blob/' + id, full: '/_blob/' + id, ar: 1.5, asset: id }));
+  g.s.forEach(([id, w, h], i) => {
+    const local = i < g.l ? `gallery/${f.imdb}/${i + 1}.jpg` : '';
+    if (!local && !remote) return;
+    out.push({ kind: 'still', thumb: local || cdn(id, 640), full: remote ? cdn(id, Math.min(w, 2000)) : local, back: local, ar: w / h, orig: remote ? cdn(id, Math.min(w, 4000)) : '' });
+  });
+  const main = f.imdb && POSTERS.has(f.imdb) ? `posters-hd/${f.imdb}.jpg` : '';
+  if (f.posterFile) out.push({ kind: 'poster', thumb: '/_blob/' + f.posterFile, full: '/_blob/' + f.posterFile, ar: 2 / 3 });
+  if (remote && g.p.length) g.p.forEach(([id, w, h], i) => out.push({ kind: 'poster', thumb: i === 0 && main ? main : cdn(id, 400), full: cdn(id, Math.min(w, 1600)), back: i === 0 ? main : '', ar: w / h, orig: cdn(id, Math.min(w, 4000)) }));
+  else if (main) out.push({ kind: 'poster', thumb: main, full: main, ar: 2 / 3 });
+  return out;
+}
+const KIND = { still: '剧照', poster: '海报', mine: '我加的' };
+function renderGallery() {
+  const f = dFilm; if (!f) return;
+  gItems = galleryItems(f);
+  const grid = $('#galGrid'); grid.textContent = '';
+  const n = { still: 0, poster: 0, mine: 0 }; gItems.forEach(x => n[x.kind]++);
+  $('#galN').textContent = [n.still && `剧照 ${n.still}`, n.poster && `海报 ${n.poster}`, n.mine && `我加的 ${n.mine}`].filter(Boolean).join(' · ');
+  const show = gOpen ? gItems.length : Math.min(gItems.length, GAL_FOLD);
+  gItems.slice(0, show).forEach((it, i) => {
+    const b = el('button', 'g-it'); b.type = 'button'; b.style.setProperty('--ar', Math.max(.5, Math.min(2.6, it.ar || 1.5)).toFixed(3));
+    b.setAttribute('aria-label', `${KIND[it.kind]} ${i + 1}，点开看大图`);
+    const img = new Image(); img.alt = ''; img.decoding = 'async'; img.referrerPolicy = 'no-referrer';
+    img.onload = () => { img.classList.add('ok'); if (it.kind === 'mine' && img.naturalHeight) b.style.setProperty('--ar', (img.naturalWidth / img.naturalHeight).toFixed(3)); };
+    img.onerror = () => { if (it.back && img.src.indexOf(it.back) < 0) img.src = it.back; else b.hidden = true; };
+    img.src = it.thumb; b.appendChild(img);
+    if (it.kind !== 'still') b.appendChild(el('span', 'tag', KIND[it.kind]));
+    b.onclick = () => openLightbox(i);
+    grid.appendChild(b);
+  });
+  const add = el('button', 'g-add', '<b>+</b><span>添加图片</span>'); add.type = 'button'; add.id = 'galAdd';
+  add.title = '添加自己的剧照或海报'; add.onclick = addShots; grid.appendChild(add);
+  const more = $('#galMore'); more.hidden = gItems.length <= GAL_FOLD;
+  more.textContent = gOpen ? '收起' : `展开全部 ${gItems.length} 张`;
+  if (!gItems.length) $('#galNote').textContent = f.imdb ? '这部片的剧照还没取到，下次同步会再试；也可以先自己加几张。' : '还不知道这是哪一部电影（没有 IMDb 链接），所以没有自动剧照。可以先自己加几张。';
+}
+$('#galMore').onclick = () => { gOpen = !gOpen; renderGallery(); };
+
+function addShots() {
+  const f = dFilm; if (!f) return;
+  const note = $('#galNote'); note.className = 'note';
+  if (live && assetsCap) return $('#galFile').click();
+  // 公开网站是只读的：图片放进 Notion 那一行的「剧照」栏，下一次同步（约 15 分钟）就会出现在这里
+  note.innerHTML = `把图片拖进这部片子 Notion 页面的「剧照」一栏，约 15 分钟后会自动出现在这里。<a href="https://www.notion.so/${esc(f.id)}" target="_blank" rel="noopener">打开 Notion 页面 ↗</a>`;
+}
+$('#galFile').addEventListener('change', async e => {
+  const f = dFilm, files = [...e.target.files]; e.target.value = '';
+  if (!f || !files.length || !assetsCap) return;
+  const note = $('#galNote'), add = $('#galAdd'); note.className = 'note'; if (add) add.disabled = true;
+  const ids = (f.shotFiles || []).slice(); let done = 0, fail = '';
+  for (const file of files) {
+    note.textContent = `正在上传 ${done + 1} / ${files.length}……`;
+    try { ids.push((await assetsCap.upload(file)).id); done++; }
+    catch (err) { fail = file.size > 20 * 1048576 ? '有图片超过 20MB，没传上' : '有图片没传上：' + ((err && err.message) || err); }
+  }
+  try {
+    if (done) { await callNotion('notion-update-page', { page_id: f.id, command: 'update_properties', properties: { '剧照文件': ids.join(',') } }); f.shotFiles = ids; }
+    note.textContent = fail || `已添加 ${done} 张`; if (fail) note.className = 'note err';
+  } catch (err) { note.className = 'note err'; note.textContent = '图片传上了，但没记进 Notion：' + errText(err); }
+  if (dFilm === f) renderGallery();
+});
+
+function openLightbox(i) {
+  if (!gItems.length) return;
+  lbI = (i + gItems.length) % gItems.length;
+  const it = gItems[lbI], img = $('#lbImg');
+  $('#lb').hidden = false;
+  img.onerror = () => { img.onerror = null; if (it.back) img.src = it.back; };
+  img.src = it.thumb;                                   // 先放小图，高清的加载好了再换上
+  if (it.full !== it.thumb) { const hd = new Image(); hd.referrerPolicy = 'no-referrer'; hd.onload = () => { if (gItems[lbI] === it) img.src = it.full; }; hd.src = it.full; }
+  $('#lbNo').textContent = `${String(lbI + 1).padStart(2, '0')} / ${String(gItems.length).padStart(2, '0')}`;
+  $('#lbKind').textContent = `${dFilm ? dFilm.title + ' · ' : ''}${KIND[it.kind]}`;
+  $('#lbOpen').hidden = !it.orig; if (it.orig) $('#lbOpen').href = it.orig;
+  $('#lbDel').hidden = !(it.asset && live);
+  $('#lbPrev').hidden = $('#lbNext').hidden = gItems.length < 2;
+  if (!gOpen && lbI >= GAL_FOLD) { gOpen = true; renderGallery(); }
+}
+function closeLightbox() { $('#lb').hidden = true; $('#lbImg').removeAttribute('src'); lbI = -1; }
+$('#lbClose').onclick = closeLightbox;
+$('#lbPrev').onclick = () => openLightbox(lbI - 1);
+$('#lbNext').onclick = () => openLightbox(lbI + 1);
+$('#lbStage').onclick = e => { if (e.target.id === 'lbStage') closeLightbox(); };
+$('#lbDel').onclick = async () => {
+  const f = dFilm, it = gItems[lbI]; if (!f || !it || !it.asset || !live) return;
+  const ids = (f.shotFiles || []).filter(x => x !== it.asset);
+  try {
+    await callNotion('notion-update-page', { page_id: f.id, command: 'update_properties', properties: { '剧照文件': ids.length ? ids.join(',') : null } });
+    f.shotFiles = ids; closeLightbox(); renderGallery(); toast('已从这部片的画廊里移除');
+  } catch (err) { toast('没移除成功：' + errText(err), 5000); }
 };
 
 /* ================= Notion ================= */
@@ -729,13 +837,19 @@ $('#mSync').onclick = () => {
   if (mcp) return syncNotion(true);
   // 公开网站不直接连 Notion：GitHub 每天自动把 Notion 的片单和影评同步过来
   const t = window.FILM_SYNCED_AT;
-  toast(t ? `公开版每天凌晨 4 点自动从 Notion 同步，最近一次：${new Date(t).toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}。在 Notion 里改完想马上看到，就去 GitHub 的 Actions 手动运行一次。`
-    : '公开版还没从 Notion 同步过（现在是初始快照）。配置好 NOTION_TOKEN 后，GitHub 每天凌晨 4 点会自动同步。', 8000);
+  toast(t ? `公开版约每 15 分钟自动从 Notion 同步一次，最近一次有变化是 ${new Date(t).toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}。在 Notion 里只填片名或 IMDb 链接，其余资料、海报、剧照会自动补齐。`
+    : '公开版还没从 Notion 同步过（现在是初始快照）。配置好 NOTION_TOKEN 后，GitHub 约每 15 分钟会自动同步一次。', 8000);
 };
 $('#mKeys').onclick = () => { $('#menu').hidden = true; };
 
 document.addEventListener('keydown', e => {
   const inField = /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName);
+  if (!$('#lb').hidden) {
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') openLightbox(lbI - 1);
+    if (e.key === 'ArrowRight') openLightbox(lbI + 1);
+    return;
+  }
   if (e.key === 'Escape') {
     if (!$('#intro').hidden) return endIntro();
     if (!$('#addDlg').hidden) { $('#addDlg').hidden = true; return; }
@@ -812,7 +926,6 @@ document.addEventListener('pointerdown', function first(e) {
 
 // 唱片机：Spotify。公开网站里直接嵌播放器；在 Claude 里（不能嵌外站）就给一个打开链接
 const SP_DEFAULT = 'https://open.spotify.com/playlist/6uM9ayCvEL8j1Xp1QNeRES';   // 香港电影的热门配乐
-const inClaude = !!(window.claude && typeof window.claude.use === 'function');
 function spParse(u) {
   const m = String(u || '').trim().match(/(?:open\.spotify\.com\/(?:intl-[a-z-]+\/)?(?:embed\/)?|spotify:)(playlist|album|track|artist|episode|show)[\/:]([A-Za-z0-9]{10,40})/);
   return m ? { type: m[1], id: m[2], uri: `spotify:${m[1]}:${m[2]}`, url: `https://open.spotify.com/${m[1]}/${m[2]}` } : null;

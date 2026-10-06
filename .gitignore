@@ -2,3 +2,5 @@ shots/
 offline/
 *.zip
 site/.claude/
+.claude/
+node_modules/

@@ -13,6 +13,7 @@
   --line:rgba(236,229,214,.12); --line-2:rgba(236,229,214,.22);
   --beam:rgba(255,236,196,.10); --shade:rgba(0,0,0,.72);
   --grain-op:.10; --grain-blend:overlay;
+  --detail:#0a0908; --tile:#15120e;
   --serif:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
   --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
@@ -28,6 +29,7 @@
   --line:rgba(27,25,22,.12); --line-2:rgba(27,25,22,.24);
   --beam:rgba(255,255,255,.55); --shade:rgba(20,18,14,.55);
   --grain-op:.07; --grain-blend:multiply;
+  --detail:#f6f5f1; --tile:#dddbd4;
 }
 html,body{height:100%}
 body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);overflow:hidden;
@@ -166,12 +168,14 @@ main{position:fixed;inset:0}
 /* ——— 详情 ——— */
 .overlay{position:fixed;inset:0;z-index:50;display:grid}
 .overlay[hidden]{display:none!important}
-#detail{background:var(--shade);backdrop-filter:blur(2px)}
+#detail{background:var(--detail)}
 .d-bg{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(60px) saturate(.8) brightness(.35);opacity:0;transition:opacity .8s}
 #detail.on .d-bg{opacity:1}
 .d-bg::after{content:"";position:absolute;inset:0;background:var(--shade)}
-:root[data-room="light"] .d-bg{filter:blur(60px) saturate(.6) brightness(1.5);opacity:.0}
-:root[data-room="light"] #detail.on .d-bg{opacity:.55}
+:root[data-room="light"] .d-bg{filter:blur(70px) saturate(.55) brightness(1.2)}
+:root[data-room="light"] #detail.on .d-bg{opacity:.16}
+:root[data-room="light"] .d-bg::after{background:none}
+:root[data-room="light"] .d-poster{box-shadow:0 24px 60px rgba(40,34,24,.28),0 0 0 1px rgba(0,0,0,.08)}
 .d-shell{position:relative;overflow-y:auto;overflow-x:hidden;padding:calc(var(--hdr) + 8px) 16px 60px}
 .d-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:minmax(220px,380px) 1fr;gap:clamp(24px,5vw,64px);align-items:start}
 .d-poster{position:sticky;top:12px;aspect-ratio:2/3;background:#000;border-radius:2px;overflow:hidden;
@@ -192,6 +196,38 @@ main{position:fixed;inset:0}
 .d-links{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px}
 .d-links a{color:var(--ink-2);font-size:13px;border-bottom:1px solid var(--line-2);text-decoration:none;padding-bottom:1px}
 .d-links a:hover{color:var(--amber);border-color:var(--amber)}
+/* ——— 剧照与海报 ——— */
+.gal{border-top:1px solid var(--line-2);padding-top:22px;margin-bottom:26px;display:grid;gap:12px}
+.gal-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.gal-head h3{margin:0;font-family:var(--serif);font-size:18px;letter-spacing:.2em;font-weight:700}
+.gal-head span{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--ink-3)}
+.gal-grid{display:flex;flex-wrap:wrap;gap:6px;--gh:116px}
+.gal-grid::after{content:"";flex:999 1 0}
+.g-it{position:relative;height:var(--gh);flex:var(--ar) 1 calc(var(--gh)*var(--ar));min-width:0;padding:0;border:0;border-radius:2px;overflow:hidden;background:var(--tile);cursor:zoom-in}
+.g-it img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .5s,transform .5s cubic-bezier(.2,.7,.2,1)}
+.g-it img.ok{opacity:1}
+.g-it:hover img,.g-it:focus-visible img{transform:scale(1.04)}
+.g-it .tag{position:absolute;left:5px;bottom:5px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:#f3ead8;background:rgba(0,0,0,.55);padding:2px 6px;border-radius:2px}
+.g-add{height:var(--gh);flex:0 0 var(--gh);border:1px dashed var(--line-2);border-radius:2px;background:transparent;color:var(--ink-3);display:grid;place-content:center;justify-items:center;gap:4px;font-size:12px;letter-spacing:.1em}
+.g-add b{font-family:var(--latin);font-size:40px;line-height:.8;font-weight:400}
+.g-add:hover{color:var(--amber);border-color:var(--amber)}
+.g-add[disabled]{opacity:.5;cursor:progress}
+.gal-foot{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.gal-foot .note a{color:var(--amber)}
+.gal-empty{color:var(--ink-3);font-size:13.5px;margin:0}
+/* ——— 看大图 ——— */
+#lb{z-index:80;background:#050404;color:#efe7d6;grid-template-rows:1fr auto}
+.lb-stage{position:relative;min-height:0;display:grid;place-items:center;padding:calc(env(safe-area-inset-top,0px) + 52px) 64px 8px;cursor:zoom-out}
+.lb-stage img{max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;cursor:default;box-shadow:0 30px 90px rgba(0,0,0,.7)}
+.lb-bar{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;padding:10px 16px calc(14px + env(safe-area-inset-bottom,0px));font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;color:#a39884}
+.lb-bar b{color:#e0a94a;font-weight:500;font-variant-numeric:tabular-nums}
+.lb-bar a,.lb-bar button{color:#cfc5b1;background:none;border:0;border-bottom:1px solid rgba(239,231,214,.3);padding:0 0 1px;text-decoration:none;font:inherit;letter-spacing:.1em}
+.lb-bar a:hover,.lb-bar button:hover{color:#e0a94a;border-color:#e0a94a}
+#lb .icon-btn{position:absolute;z-index:2;color:#cfc5b1;border-color:rgba(239,231,214,.3);background:rgba(0,0,0,.4)}
+#lb .icon-btn:hover{color:#fff;border-color:#fff}
+#lbClose{top:calc(env(safe-area-inset-top,0px) + 11px);right:16px}
+#lbPrev{left:12px;top:50%;transform:translateY(-50%)}
+#lbNext{right:12px;top:50%;transform:translateY(-50%)}
 .mine{border-top:1px solid var(--line-2);padding-top:22px;display:grid;gap:16px}
 .mine h3{margin:0;font-family:var(--serif);font-size:18px;letter-spacing:.2em;font-weight:700}
 .mine-form{display:grid;gap:16px}
@@ -286,6 +322,9 @@ main{position:fixed;inset:0}
   .d-inner{grid-template-columns:1fr}
   .d-poster{position:relative;top:0;width:min(62%,260px);margin:0 auto}
   .d-nav{display:none}
+  .gal-grid{--gh:92px}
+  .lb-stage{padding-left:10px;padding-right:10px}
+  #lbPrev,#lbNext{top:auto;bottom:64px;transform:none}
   .caption{padding-top:18px}
   .add-btn{padding:6px 10px}
 }
@@ -379,6 +418,12 @@ main{position:fixed;inset:0}
         <dl class="d-facts" id="dFacts"></dl>
         <p class="d-syn" id="dSyn"></p>
         <div class="d-links" id="dLinks"></div>
+        <section class="gal" id="dGal" aria-labelledby="galH">
+          <div class="gal-head"><h3 id="galH">剧照与海报</h3><span id="galN"></span></div>
+          <div class="gal-grid" id="galGrid"></div>
+          <div class="gal-foot"><button type="button" class="ghost" id="galMore" hidden></button><span class="note" id="galNote"></span></div>
+          <input type="file" id="galFile" accept="image/*" multiple hidden>
+        </section>
         <div class="mine">
           <h3>我的</h3>
           <div class="ro" id="dRO" hidden>
@@ -403,10 +448,18 @@ main{position:fixed;inset:0}
   </div>
 </div>
 
+<div class="overlay" id="lb" hidden role="dialog" aria-modal="true" aria-label="看大图">
+  <button class="icon-btn" id="lbClose" aria-label="关闭大图"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="icon-btn" id="lbPrev" aria-label="上一张"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="icon-btn" id="lbNext" aria-label="下一张"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button>
+  <div class="lb-stage" id="lbStage"><img id="lbImg" alt="" referrerpolicy="no-referrer"></div>
+  <div class="lb-bar"><span><b id="lbNo"></b></span><span id="lbKind"></span><a id="lbOpen" target="_blank" rel="noopener noreferrer" hidden>打开原图 ↗</a><button type="button" id="lbDel" hidden>移除这张</button></div>
+</div>
+
 <div class="overlay" id="addDlg" hidden role="dialog" aria-modal="true" aria-labelledby="aH">
   <form class="dlg" id="addForm" novalidate>
     <h2 id="aH">添加一部电影</h2>
-    <p class="note">填片名后点"自动补全"，Claude 会凭记忆补齐资料，请核对后再保存。保存后会写进 Notion 的电影档案。</p>
+    <p class="note">只填片名（或再贴一个 IMDb 链接）就可以保存：其余资料、海报和剧照会在约 15 分钟内自动查齐，写回 Notion。想马上看到大概的资料，可以点"自动补全"。</p>
     <div class="grid">
       <div class="fld"><label for="aTitle">片名 *</label><input id="aTitle" required placeholder="例如：花样年华"></div>
       <div class="fld"><label for="aGroup">分组</label><select id="aGroup"></select></div>

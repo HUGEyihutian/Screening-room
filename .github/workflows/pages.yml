@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: '0 20 * * *'   # 每天北京时间 04:00
+    - cron: '*/15 * * * *'   # 约每 15 分钟一次（GitHub 的定时任务可能晚几分钟）
   workflow_dispatch:        # 在 Actions 页面手动点"Run workflow"立即同步
 
 permissions:
@@ -19,6 +19,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      deploy: ${{ steps.commit.outputs.deploy }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -34,25 +36,34 @@ jobs:
             echo "$msg" >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
+          npm install --no-save --no-audit --no-fund sharp@0.33 || echo "sharp 没装上，手动上传的剧照将不压缩"
           node scripts/sync.mjs
       - name: 提交同步结果
+        id: commit
         run: |
           git config user.name "fangyingshi-bot"
           git config user.email "fangyingshi-bot@users.noreply.github.com"
-          git add site/data.js site/posters site/posters-hd data
-          git diff --cached --quiet || git commit -m "同步 Notion 片单 $(date -u +%F)"
+          git add site/data.js site/posters site/posters-hd site/gallery data
+          # 只有网页用到的内容变了才重新发布；定时任务里没变化就到此为止
+          if git diff --cached --quiet -- site; then changed=false; else changed=true; fi
+          git diff --cached --quiet || git commit -m "同步 Notion 片单 $(date -u +'%F %H:%M')"
           git push || true
+          if [ "$changed" = true ] || [ "${{ github.event_name }}" != schedule ]; then echo "deploy=true" >> "$GITHUB_OUTPUT"; else echo "deploy=false" >> "$GITHUB_OUTPUT"; fi
       - name: 组装完整页面（源文件是 Artifact 用的片段）
+        if: steps.commit.outputs.deploy == 'true'
         run: |
           { printf '<!doctype html>\n<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="referrer" content="no-referrer">\n'; cat site/index.html; printf '\n</html>\n'; } > /tmp/index.html
           mv /tmp/index.html site/index.html
       - uses: actions/configure-pages@v5
+        if: steps.commit.outputs.deploy == 'true'
       - uses: actions/upload-pages-artifact@v3
+        if: steps.commit.outputs.deploy == 'true'
         with:
           path: site
 
   deploy:
     needs: build
+    if: needs.build.outputs.deploy == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
