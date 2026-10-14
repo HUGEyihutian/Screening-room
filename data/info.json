@@ -10225,5 +10225,32 @@
     "dirZh": "斯蒂芬·斯皮尔伯格",
     "zhSynopsis": "1957年，白人青年的喷射机帮与波多黎各人的鲨鱼帮爆发冲突，争夺曼哈顿上西城圣胡安山的地盘。克拉基警长和施兰克中尉前来劝架，说整个街区就要被拆除，用来兴建林肯表演艺术中心。然而双方对重建的事情不同意，喷射机帮的老大里夫提议打一场。",
     "local": 4
+  },
+  "tt0102886": {
+    "v": 2,
+    "en": "Alan & Eric: Between Hello and Goodbye",
+    "year": 1991,
+    "min": 106,
+    "genres": "Drama,Romance",
+    "country": "HK",
+    "imdbRating": 6.9,
+    "kind": "Movie",
+    "cast": "Alan Tam, Maggie Cheung, Eric Tsang",
+    "dirEn": "Peter Ho-Sun Chan",
+    "plot": "Alan and Eric are childhood friends who are separated when Eric moves to America. They are reunited in Hong Kong when Eric finds Alan at the cafe where the latter is working as a waiter and singer. Together they forge a business which is destroyed in a storm. Meanwhile, both have met a lady named Olive, and both strive for her affection. In the end, Alan's rising singing career and Olive's tendency to favour Alan over Eric alienates all three of them. They are only reunited once again in San Francisco, where Alan discovers Eric is on his death-bed from illness, and they realise what real friendship is all about, and how Olive would only be happy if she and Alan got married.",
+    "stills": [],
+    "posters": [
+      [
+        "MV5BZDZiZmY1NzEtNjZhMS00NDQ5LWIwMWEtYzE0NzlkYjQ2OGIyXkEyXkFqcGc@",
+        640,
+        943
+      ]
+    ],
+    "origRoman": "Seung sing goo si",
+    "zhTitle": "雙城故事",
+    "orig": "",
+    "dirZh": "陈可辛",
+    "zhSynopsis": "电影讲述两个好朋友同时爱上一个女孩，但出于兄弟情谊彼此退让，三人在友情与爱情中经经历一番考验。最后，志伟因为患上绝症（糖尿病晚期）而割舍放下， Alan和Olive到美国探望志伟，志伟遗愿Alan和Olive能在一起。",
+    "local": 0
   }
 }

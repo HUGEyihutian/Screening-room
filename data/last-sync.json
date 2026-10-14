@@ -1,7 +1,9 @@
 {
   "ok": true,
   "canWrite": true,
-  "wrote": 0,
+  "wrote": 1,
   "films": 75,
-  "notes": []
+  "notes": [
+    "✍️ 《双城故事》补齐：英文名、年份、导演、地区、片长、类型、简介、海报链接"
+  ]
 }
