@@ -1,7 +1,9 @@
 {
   "ok": true,
   "canWrite": true,
-  "wrote": 0,
-  "films": 75,
-  "notes": []
+  "wrote": 1,
+  "films": 76,
+  "notes": [
+    "✍️ 《蓝宇》补齐：原名、英文名、年份、导演、主演、地区、片长、类型、简介、海报链接"
+  ]
 }
